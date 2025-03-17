@@ -1,4 +1,4 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.composite;
 
 public interface Device {
     void turnOn(); // turn device on

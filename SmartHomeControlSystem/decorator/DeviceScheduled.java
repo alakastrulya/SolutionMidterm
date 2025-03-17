@@ -1,7 +1,9 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.decorator;
+
+import SmartHomeControlSystem.composite.Device;
 
 // decorator for scheduling device operations
-public class DeviceScheduled extends DeviceDecorator{
+public class DeviceScheduled extends DeviceDecorator {
     private String scheduleTime;
 
     // constructor with schedule time

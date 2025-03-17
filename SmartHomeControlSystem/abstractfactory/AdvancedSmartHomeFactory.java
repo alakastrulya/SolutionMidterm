@@ -1,4 +1,9 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.abstractfactory;
+
+import SmartHomeControlSystem.composite.Device;
+import SmartHomeControlSystem.composite.VerySmartDevice;
+import SmartHomeControlSystem.decorator.DeviceLog;
+import SmartHomeControlSystem.decorator.DeviceScheduled;
 
 // factory for advanced devices with extra features
 public class AdvancedSmartHomeFactory implements SmartHomeFactory {

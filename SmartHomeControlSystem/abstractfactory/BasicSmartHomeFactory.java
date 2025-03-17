@@ -1,4 +1,7 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.abstractfactory;
+
+import SmartHomeControlSystem.composite.Device;
+import SmartHomeControlSystem.composite.VerySmartDevice;
 
 // factory for basic devices
 public class BasicSmartHomeFactory implements SmartHomeFactory {

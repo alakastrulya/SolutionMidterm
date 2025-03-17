@@ -1,4 +1,4 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.composite;
 
 
 // leaf class for individual devices

@@ -1,4 +1,6 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.decorator;
+
+import SmartHomeControlSystem.composite.Device;
 
 public class DeviceLog extends DeviceDecorator {
 

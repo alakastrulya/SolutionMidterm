@@ -1,4 +1,4 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.composite;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,7 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.decorator;
 
+
+import SmartHomeControlSystem.composite.Device;
 
 // abstract decorator class
 public abstract class DeviceDecorator implements Device {

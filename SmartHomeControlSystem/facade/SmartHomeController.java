@@ -1,10 +1,11 @@
-package SmartHomeControlSystem;
+package SmartHomeControlSystem.facade;
+
+import SmartHomeControlSystem.composite.DeviceGroup;
 
 // facade for controlling smart home system
 public class SmartHomeController {
     private DeviceGroup home;
 
-    // constructor takes root device group
     public SmartHomeController(DeviceGroup home) {
         this.home = home;
     }
@@ -21,7 +22,7 @@ public class SmartHomeController {
         home.turnOff();
     }
 
-    // get status report of all devices
+    // get report of all devices
     public String getSystemStatus() {
         return "Smart Home Status:\n" + home.getStatus();
     }
