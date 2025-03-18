@@ -1,12 +1,15 @@
 package OnlinePaymentGateway.factory;
 
-import OnlinePaymentGateway.adapter.PayPalAdapter;
-
 public class PayPalPaymentFactory implements PaymentFactory {
+    private String userId;
+
+    public PayPalPaymentFactory(String userId) {
+        this.userId = userId;
+    }
+
     @Override
-    // factory method to create PayPalAdapter
+    // create PayPalPayment instance with initial balance
     public PaymentMethod createTransaction() {
-        // return adapter for integration with external API
-        return new PayPalAdapter("user@paypal");
+        return new PayPalPayment(userId, 100000);
     }
 }

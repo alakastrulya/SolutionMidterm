@@ -12,7 +12,6 @@ public class PayPalAPI {
         }
     }
 
-    // transfer money to another client
     public boolean transferMoneyToAnotherClient(String fromAccountId, String toAccountId, int amount) {
         if (amount > 0 && fromAccountId != null && toAccountId != null &&
                 !fromAccountId.isEmpty() && !toAccountId.isEmpty()) {
@@ -24,7 +23,7 @@ public class PayPalAPI {
         }
     }
 
-    // pay utilities
+    //utilities
     public boolean paymentOfApartmentUtilities(String accountId, int amount, String utilityProvider) {
         if (amount > 0 && accountId != null && utilityProvider != null && !accountId.isEmpty() && !utilityProvider.isEmpty()) {
             System.out.println("PayPal API: Payment " + amount + " for services " + utilityProvider + " from " + accountId);

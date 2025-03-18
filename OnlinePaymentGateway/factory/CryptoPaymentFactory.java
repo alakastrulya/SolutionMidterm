@@ -1,10 +1,14 @@
 package OnlinePaymentGateway.factory;
 
 public class CryptoPaymentFactory implements PaymentFactory {
+    private String userId;
+
+    public CryptoPaymentFactory(String userId) {
+        this.userId = userId;
+    }
+
     @Override
-    // factory method to create CryptoPayment instance
     public PaymentMethod createTransaction() {
-        // return new instance with wallet address
-        return new CryptoPayment("1111___");
+        return new CryptoPayment(userId + "_wallet", 100000);
     }
 }

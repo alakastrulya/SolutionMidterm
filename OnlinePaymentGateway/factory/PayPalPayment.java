@@ -1,56 +1,38 @@
 package OnlinePaymentGateway.factory;
 
-public class PayPalPayment implements PaymentMethod {
-    private String email; // paypal account email
-    private int balance; // balance in paypal account
-
-    // constructor takes email and initial balance
+public class PayPalPayment extends PaymentMethod {
     public PayPalPayment(String email, int initialBalance) {
-        this.email = email;
-        this.balance = initialBalance;
+        super(email, initialBalance);
     }
 
     @Override
-    // process a regular payment
-    public int processPayment(int amount) {
-        // check if amount is positive, within balance, and email is valid
-        if (amount > 0 && amount <= balance && email != null && !email.isEmpty()) {
-            balance -= amount; // reduce balance
-            System.out.println("PayPal: Processed payment of " + amount + " from " + email);
-            return amount; // return amount on success
-        } else {
-            System.out.println("PayPal: Payment failed due to insufficient funds or invalid email");
-            return 0; // return 0 on failure
-        }
+    protected int processPaymentImpl(int amount) {
+        return 0; // balance tracked in parent
     }
 
     @Override
-    // transfer money to another client
+    // transfer with balance check
     public boolean transferMoneyToAnotherClient(String toAccountId, int amount) {
-        // check conditions: amount, balance, and valid recipient email
-        if (amount > 0 && amount <= balance && toAccountId != null && !toAccountId.isEmpty() &&
-                email != null && !email.isEmpty()) {
-            balance -= amount; // reduce balance
-            System.out.println("PayPal: Transferred " + amount + " from " + email + " to " + toAccountId);
-            return true; // success
+        if (amount > 0 && amount <= balance && toAccountId != null && !toAccountId.isEmpty()) {
+            balance -= amount;
+            System.out.println("PayPal: Transferred " + amount + " from " + identifier + " to " + toAccountId);
+            return true;
         } else {
             System.out.println("PayPal: Transfer failed due to insufficient funds or invalid account");
-            return false; // failure
+            return false;
         }
     }
 
     @Override
-    // pay apartment utilities
+    // pay utilities with balance check
     public boolean paymentOfApartmentUtilities(int amount, String utilityProvider) {
-        // check conditions: amount, balance, and valid provider
-        if (amount > 0 && amount <= balance && utilityProvider != null && !utilityProvider.isEmpty() &&
-                email != null && !email.isEmpty()) {
-            balance -= amount; // reduce balance
-            System.out.println("PayPal: Paid " + amount + " for " + utilityProvider + " from " + email);
-            return true; // success
+        if (amount > 0 && amount <= balance && utilityProvider != null && !utilityProvider.isEmpty()) {
+            balance -= amount;
+            System.out.println("PayPal: Paid " + amount + " for " + utilityProvider + " from " + identifier);
+            return true;
         } else {
-            System.out.println("PayPal: Utility payment failed due to insufficient funds or invalid provider");
-            return false; // failure
+            System.out.println("PayPal: Utility payment failed");
+            return false;
         }
     }
 }

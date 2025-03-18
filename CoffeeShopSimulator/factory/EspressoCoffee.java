@@ -1,32 +1,21 @@
 package CoffeeShopSimulator.factory;
 
-public class EspressoCoffee implements Coffee {
-
-    @Override
-    public String getName() {
-        return "Espresso Coffee";
+public class EspressoCoffee extends Coffee {
+    // constructor calls the parent constructor with specific values
+    public EspressoCoffee() {
+        super("Espresso Coffee", 600, "Lovely Espresso Coffee");
     }
 
     @Override
-    public int getPrice() {
-        // the base price for espresso
-        return 500;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Super puper espresso coffee";
-    }
-
-    @Override
-    public void makeCoffee() {
-        // simulates making the coffee
-        System.out.println("make a Espresso Coffee");
+    public Coffee makeCoffee() {
+        // simulates making the coffee and returns this object
+        System.out.println("making a Cappuccino Coffee");
+        return this;
     }
 
     @Override
     public void pourIntoGlasses() {
         // simulates pouring the coffee into glasses
-        System.out.println("pour into glasses the Espresso coffee ");
+        System.out.println("pouring Cappuccino Coffee into glasses");
     }
 }

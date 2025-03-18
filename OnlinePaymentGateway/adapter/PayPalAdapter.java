@@ -1,41 +1,37 @@
 package OnlinePaymentGateway.adapter;
 
+import OnlinePaymentGateway.adapter.PayPalAPI;
 import OnlinePaymentGateway.factory.PaymentMethod;
 
-public class PayPalAdapter implements PaymentMethod {
-    private PayPalAPI payPalAPI; // reference to API
-    private String accountId; // paypal account ID
+public class PayPalAdapter extends PaymentMethod {
+    private PayPalAPI payPalAPI; // external API
 
-    // constructor takes account ID and creates API instance
+    // constructor without balance
     public PayPalAdapter(String accountId) {
+        super(accountId);
         this.payPalAPI = new PayPalAPI();
-        this.accountId = accountId;
     }
 
     @Override
-    // process payment via adapter
-    public int processPayment(int amount) {
-        // adapter calls external API method
-        boolean success = payPalAPI.executeTransaction(accountId, amount);
+    // override for API-based payment
+    protected int processPaymentImpl(int amount) {
+        boolean success = payPalAPI.executeTransaction(identifier, amount);
         if (success) {
-            return amount; // success
+            return amount;
         } else {
-            System.out.println("PayPal Adapter Payment failed");
-            return 0; // failure
+            System.out.println("PayPal: Payment failed");
+            return 0;
         }
     }
 
     @Override
-    // transfer via adapter
+    // transfer money
     public boolean transferMoneyToAnotherClient(String toAccountId, int amount) {
-        // adapter delegates to external API
-        return payPalAPI.transferMoneyToAnotherClient(accountId, toAccountId, amount);
+        return payPalAPI.transferMoneyToAnotherClient(identifier, toAccountId, amount);
     }
 
     @Override
-    // pay utilities via adapter
     public boolean paymentOfApartmentUtilities(int amount, String utilityProvider) {
-        // adapter delegates to external API
-        return payPalAPI.paymentOfApartmentUtilities(accountId, amount, utilityProvider);
+        return payPalAPI.paymentOfApartmentUtilities(identifier, amount, utilityProvider);
     }
 }

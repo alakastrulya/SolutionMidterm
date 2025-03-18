@@ -1,51 +1,34 @@
 package OnlinePaymentGateway.factory;
 
-public class CryptoPayment implements PaymentMethod {
-    private String walletAddress;
-
-    // constructor takes wallet address
-    public CryptoPayment(String walletAddress) {
-        this.walletAddress = walletAddress;
+public class CryptoPayment extends PaymentMethod {
+    // constructor with balance
+    public CryptoPayment(String walletAddress, int initialBalance) {
+        super(walletAddress, initialBalance);
     }
 
     @Override
-    // process a regular payment
-    public int processPayment(int amount) {
-        // check amount and wallet validity
-        if (amount > 0 && walletAddress != null && !walletAddress.isEmpty()) {
-            System.out.println("Crypto Processed payment of " + amount + " from wallet " + walletAddress);
-            return amount; // return amount on success
-        } else {
-            System.out.println("Crypto Payment failed");
-            return 0; // failure
-        }
+    // not used, default processPayment handles balance
+    protected int processPaymentImpl(int amount) {
+        return 0; // balance tracked in parent
     }
 
     @Override
-    // transfer money to another client
+    // transfer with balance check
     public boolean transferMoneyToAnotherClient(String toAccountId, int amount) {
-        // check amount, recipient address, and own wallet
-        if (amount > 0 && toAccountId != null && !toAccountId.isEmpty() &&
-                walletAddress != null && !walletAddress.isEmpty()) {
-            System.out.println("Crypto Transferred " + amount + " from " + walletAddress + " to " + toAccountId);
-            return true; // success
+        if (amount > 0 && amount <= balance && toAccountId != null && !toAccountId.isEmpty()) {
+            balance -= amount;
+            System.out.println("Crypto: Transferred " + amount + " from " + identifier + " to " + toAccountId);
+            return true;
         } else {
-            System.out.println("Crypto Transfer failed");
-            return false; // failure
+            System.out.println("Crypto: Transfer failed");
+            return false;
         }
     }
 
     @Override
-    // pay apartment utilities
+    // crypto doesn’t support utilities directly
     public boolean paymentOfApartmentUtilities(int amount, String utilityProvider) {
-        // check amount, provider, and wallet
-        if (amount > 0 && utilityProvider != null && !utilityProvider.isEmpty() &&
-                walletAddress != null && !walletAddress.isEmpty()) {
-            System.out.println("Crypto paid " + amount + " for " + utilityProvider + " from " + walletAddress);
-            return true; // success
-        } else {
-            System.out.println("Crypto Utility payment failed");
-            return false; // failure
-        }
+        System.out.println("Crypto: Utility payments not supported directly. Please transfer to a card first.");
+        return false;
     }
 }

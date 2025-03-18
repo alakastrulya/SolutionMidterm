@@ -1,59 +1,56 @@
 package OnlinePaymentGateway.main;
 
-import OnlinePaymentGateway.factory.*;
+import OnlinePaymentGateway.factory.CreditCardPaymentFactory;
+import OnlinePaymentGateway.factory.CryptoPaymentFactory;
+import OnlinePaymentGateway.factory.PayPalPaymentFactory;
+import OnlinePaymentGateway.factory.PaymentFactory;
+import OnlinePaymentGateway.factory.PaymentMethod;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
 
-        // prompt user for payment type
-        System.out.println("Enter payment type (creditcard, paypal, crypto): ");
-        String paymentType = scanner.nextLine();
-
-        //factory method to create payment object
-        PaymentFactory paymentFactory = choosePaymentFactory(paymentType);
-        PaymentMethod payment = paymentFactory.createTransaction();
-
-        // prompt user for amount
-        System.out.println("Enter the amount to pay: ");
-        int amount = scanner.nextInt();
-
-        // run tests with payment object and amount
-        PaymentTest test = new PaymentTest();
-        test.runTests(payment, amount);
-
-        //The output
-        //Enter payment type (creditcard, paypal, crypto):
-        //paypal
-        //Enter the amount to pay:
-        //10000
-        //Payment type: PayPalAdapter
-        //PayPal API: Transaction for 10000 for account user@paypal
-        //Transaction success: 10000
-        //PayPal API: Transaction5000 from user@paypal to client456@paypal.com
-        //Transaction success
-        //PayPal API: Payment 7500 for services Water Company from user@paypal
-        //Pay utilities success
-        //Transaction story:
-        //Payment type: PayPal, amount: 10000, status: Ended
-        //Payment type: PayPal Transfer, amount: 5000, status: Ended
-        //Payment type: PayPal Utilities, amount: 7500, status: Ended
-
-    }
-
-    // choose factory based on payment type
-    static PaymentFactory choosePaymentFactory(String paymentType) {
-        if (paymentType.equalsIgnoreCase("creditcard")) {
-            return new CreditCardPaymentFactory(); // factory for credit card
-        } else if (paymentType.equalsIgnoreCase("paypal")) {
-            return new PayPalPaymentFactory(); // factory for
-        } else if (paymentType.equalsIgnoreCase("crypto")) {
-            return new CryptoPaymentFactory(); // factory for crypto
-        } else {
-            throw new IllegalArgumentException("Invalid payment type");
+        // prompt for user ID
+        System.out.println("Welcome to Online Payment System");
+        System.out.println("enter your user ID (e.g., username@payment, must end with '@payment'):");
+        String userId;
+        while (true) {
+            userId = scanner.nextLine().trim();
+            if (userId.endsWith("@payment")) {
+                break;
+            } else {
+                System.out.println("invalid ID! it must end with '@payment'. try again:");
+            }
         }
+
+        // select payment method using factory
+        System.out.println("choose payment method (1 - Credit Card, 2 - PayPal, 3 - Crypto):");
+        PaymentMethod paymentMethod = null;
+        while (paymentMethod == null) {
+            String choice = scanner.nextLine().trim();
+            PaymentFactory factory = null;
+            switch (choice) {
+                case "1":
+                    factory = new CreditCardPaymentFactory(scanner, userId);
+                    break;
+                case "2":
+                    factory = new PayPalPaymentFactory(userId);
+                    break;
+                case "3":
+                    factory = new CryptoPaymentFactory(userId);
+                    break;
+                default:
+                    System.out.println("invalid choice! enter 1, 2, or 3:");
+                    continue;
+            }
+            paymentMethod = factory.createTransaction();
+        }
+
+        // run tests with selected payment method
+        PaymentTest test = new PaymentTest();
+        test.runTests(paymentMethod, userId);
+
     }
 }

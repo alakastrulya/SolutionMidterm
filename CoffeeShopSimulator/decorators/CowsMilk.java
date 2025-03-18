@@ -4,26 +4,33 @@ import CoffeeShopSimulator.factory.Coffee;
 
 public class CowsMilk extends MilkDecorator {
     public CowsMilk(Coffee coffee) {
+        // constructor updates price and description
         super(coffee);
-    }
-    public int addCost(){
-        // additional cost for milk
-        return 50;
+        this.price = coffee.getPrice() + addCost();
+        this.description = coffee.getDescription() + addingDescription();
     }
 
-    public String addingDescription() {
-        return " with Cows milk";
+    // the basic cost for cow's milk
+    private int addCost() {
+        return 0;
     }
 
-    @Override
-    public int getPrice() {
-        // decorator pattern adds extra cost to the coffee price
-        return super.getPrice() + addCost();
+    // the extra description for  cow's milk
+    private String addingDescription() {
+        return " with Coconut milk";
     }
 
     @Override
-    public String getDescription() {
-        // decorator pattern extends the description dynamically
-        return super.getDescription() + addingDescription();
+    public Coffee makeCoffee() {
+        // customizes the making process with cow's milk
+        coffee.makeCoffee();
+        System.out.println("adding cow's milk");
+        return this;
+    }
+
+    @Override
+    public void pourIntoGlasses() {
+        // uses the default pouring behavior
+        coffee.pourIntoGlasses();
     }
 }
